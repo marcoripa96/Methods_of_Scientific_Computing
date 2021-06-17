@@ -1,0 +1,14 @@
+
+hardware:
+    cpu: intel core i5 8250u
+    memory: 8G
+
+arch linux:
+    kernel: 5.6.3-arch1-1
+    octave: 5.2.0
+    matlab: 9.7.0.1319299 (R2019b)
+
+windows:
+    version: 10
+    octave: 5.2.0
+    matlab: 9.7.0.1319299 (R2019b)

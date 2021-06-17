@@ -1,0 +1,9 @@
+https://sparse.tamu.edu/mat/Janna/Flan_1565.mat
+https://sparse.tamu.edu/mat/Janna/StocF-1465.mat
+https://sparse.tamu.edu/mat/Rothberg/cfd2.mat
+https://sparse.tamu.edu/mat/Rothberg/cfd1.mat
+https://sparse.tamu.edu/mat/AMD/G3_circuit.mat
+https://sparse.tamu.edu/mat/Wissgott/parabolic_fem.mat
+https://sparse.tamu.edu/mat/GHS_psdef/apache2.mat
+https://sparse.tamu.edu/mat/MaxPlanck/shallow_water1.mat
+https://sparse.tamu.edu/mat/FIDAP/ex15.mat

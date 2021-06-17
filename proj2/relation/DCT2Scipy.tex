@@ -1,0 +1,32 @@
+\subsection{Analisi libreria DCT2 SciPy}\label{libScipy}
+SciPy è una libreria che offre funzioni per operazioni di analisi numerica offrendo efficienti routines per algebra lineare, ottimizzazione ed analisi statistica.
+In particolare è stato usato il pacchetto \emph{SciPy.fft} che raccoglie le funzioni \emph{FFT} (Fast Fourier Transform) che permettono di computare le \emph{DFT} (Discrete Fourier Transform) tra cui \emph{DCT} e \emph{DST} (Discrete Sin and Cosine Transform) migliorandone notevolmente la complessità computazionale.
+Di seguito vengono riportate alcune delle funzioni offerte da questo pacchetto\footnote{\url{https://docs.scipy.org/doc/scipy/reference/fft.html}}:
+\begin{itemize}
+    \item fft: computa la \emph{Discrete Fourier Transform} monodimensionale
+    \item ifft: computa la \emph{Inverse Discrete Fourier Transform} monodimensionale
+    \item fft2: computa la \emph{Discrete Fourier Transform} bidimensionale
+    \item ifft2: computa la \emph{Inverse Discrete Fourier Transform} bidimensionale
+    \item \textbf{dct}: computa la \emph{Discrete Cosine Transform} monodimensionale
+    \item \textbf{idct}: computa la \emph{Inverse Discrete Cosine Transform} monodimensionale
+\end{itemize}
+Per questo progetto è stata necessaria in particolare la funzione \emph{dct}.
+Occorre sottolineare che non viene offerta alcuna funzione per computare direttamente la \emph{dct2} (bidimensionale), ma é sufficiente applicare la funzione dct una volta sulle colonne e una volta sulle righe agendo sul parametro \emph{axis}.\\
+SciPy implementa quattro degli otto tipi di dct\footnote{\url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.dct.html\#scipy.fft.dct}}: è possibile specificarne uno di essi attraverso il parametro \emph{type}, altrimenti di default viene computata la dct di tipo 2.\\
+Segue la formula per il calcolo di ciascun coefficiente della dct di tipo 2:
+\[y_{k} = 2\sum_{n=0}^{N-1}x_{n}\cos\left ( \frac{\pi k\left ( 2n + 1 \right )  }{2N} \right )\]
+È stato infine necessario specificare il parametro \emph{norm} con valore \emph{ortho} in modo da normalizzare ciascun \emph{y\textsubscript{k}} per un fattore f:\\
+\[
+    f=
+    \begin{cases}
+    \sqrt{\frac{1}{4N}} & \text{ con } k=0\\\\
+    \sqrt{\frac{1}{2N}} & \text{ altrimenti }
+    \end{cases}    
+    \]\\
+
+Questo passaggio è stato necessario a rendere la matrice dei coefficienti ortonormale riconducendola alla forma vista a lezione.\\
+Viene riportata di seguito l'istruzione per effettuare la dct2 correttamente normalizzata tramite SciPy, dove M è la matrice di partenza e A quella ottenuta dalla dct2.
+\begin{verbatim}
+    A = dct( dct( M, axis=1, norm='ortho' ), axis=0, norm='ortho' )
+\end{verbatim}
+Come ultima nota è importante sottolineare che la dct di SciPy fa uso della \emph{Fast Fourier Transform}; ciò la rende notevolmente più efficiente rispetto alla nostra implementazione, come si vedrà nella sezione \ref{confronto}.

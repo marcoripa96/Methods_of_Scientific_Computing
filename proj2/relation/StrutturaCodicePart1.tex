@@ -1,0 +1,58 @@
+\subsection{Struttura del codice}
+Il codice sorgente di questa parte del progetto è disponibile all'indirizzo: 
+\url{https://gitlab.com/m.ripamonti/mcs_projects/-/tree/master/proj2/python/part1} ed è suddiviso nei seguenti quattro file python: \textit{main.py}, \textit{libraryMCS.py}, \textit{utils.py} e \textit{verifyDCT.py}. Per eseguirlo è necessario aver installato python 3 e i requirements definiti nel file \emph{requirements.txt} reperibile al seguente link: \url{https://gitlab.com/m.ripamonti/mcs_projects/-/blob/master/proj2/python/requirements.txt}.
+
+\subsubsection{libraryMCS.py}
+Questo file è composto dalle seguenti funzioni:
+\begin{itemize}
+\item \textbf{getAlpha(k, N)}: prende in input un intero positivo k e un intero positivo N (rappresentante la dimensione della matrice), in base al valore di k computa e ritorna il valore \textit{$\alpha_k$} seguendo la seguente regola:
+\[
+\alpha_k = \begin{cases} N & \mbox{if } k = 0 \\\\ \dfrac{N}{2} & \mbox{if } {k \neq 0} \end{cases}
+\]
+\item \textbf{dct1(v)}\label{dct1}: prende in input un vettore v e computa la dct1 (monodimensionale); ritorna un vettore \textit{c} le cui componenti sono calcolate tramite la seguente formula:
+\\
+\[
+c_k =  \dfrac{\sum_{i=0}^{N-1}v_i \cdot \cos(\pi k\dfrac{2i-1}{2N}) }{\sqrt{\alpha_k}}
+\]
+\\
+\item \textbf{dct2V1(Mat)}\label{dct2V1}:  prende in input una matrice Mat di dimensione N x M; ritorna una matrice \textit{C} ottenuta tramite l'applicazione della funzione dct1 una volta sulle righe e una volta sulle colonne.
+\item \textbf{dct2V2(Mat)}\label{dct2V2}: prende in input una matrice Mat di dimensione N x M; ritorna una matrice \textit{C} le cui componenti sono calcolate tramite la seguente formula:\\
+\[
+c_{k,l} =  \dfrac{\sum_{i=0}^{N-1}\sum_{j=0}^{M-1}Mat_{i,j} \cdot \cos(\pi k\dfrac{2i-1}{2N}) \cos(\pi l\dfrac{2j-1}{2M}) }{\sqrt{\alpha_k \alpha_l}}
+\]
+\\
+\end{itemize}
+
+\subsubsection{verifyDCT.py}
+In questo file è riportata la matrice \textit{D} di test indicata nella traccia del progetto per testare lo scaling e il funzionamento di dct2 e dct1.
+Le funzioni sviluppate per effettuare le verifiche sulla matrice sono le seguenti:
+\begin{itemize}
+\item \textbf{verifyBlockDCT2(flag, norm)}: prende in input un flag (default 0) e una variabile norm (default ortho).
+Se il valore di flag è 0 restituisce sullo standard output la matrice D a cui è stata applicata la DCT2 tramite l'applicazione della dct di SciPy una volta sulle righe e una volta sulle colonne; altrimenti restituisce la matrice D a cui è stata applicata la dct2V1.
+\item \textbf{verifyRowDCT1(flag, norm)}: prende in input un flag (default 0) e una variabile norm (default ortho).
+Se il valore di flag è 0 restituisce sullo standard output la prima riga della matrice D a cui è stata applicata la dct di SciPy; altrimenti restituisce la prima riga della matrice D a cui è stata applicata la dct1 implementata.
+\end{itemize}
+Queste funzioni permettono quindi all'utente di effettuare una rapida verifica visuale dei risultati ottenuti dalla trasformazione.
+
+\subsubsection{utils.py}
+In questo file è definita la seguente funzione:
+\begin{itemize}
+
+\item
+\textbf{generateRandomMatrix(N, M)}: prende in input due interi positivi N e M; restituisce una matrice di dimensione N x M composta da interi random.
+\end{itemize}
+
+\subsubsection{main.py}
+In questo file è stato scritto uno script per testare tutte le funzioni appena descritte.
+Tramite un menù interattivo permette le operazioni seguenti:
+\begin{itemize}
+    \item verifyBlockDCT2
+    \item verifyRowDCT1
+    \item check dct2 implementation
+    \item compare dcts
+\end{itemize}
+
+% Tramite un dataframe, definito con l'ausilio della libreria Pandas, sono state raccolte le informazioni per l'analisi. In particolare, sono stati archiviati i tempi di esecuzione per ciascuna funzione e la dimensione delle matrici utilizzate, nelle rispettive colonne: DCT2\_SCIPY, DCT2V1, DCT2V2 e DIM.
+% In questo file vengono create le matrici random di dimensione N x N con N crescente, su cui vengono applicate le seguenti funzioni: dct dalla libreria scipy, dct2V1 e dct2V2.
+% Infine, viene disegnato un grafico sulla base dei valori archiviati precedentemente: l'asse X rappresenta le dimensioni delle matrici e l'asse Y, in scala  logaritmica, rappresenta i tempi di esecuzione.\\
+% Tramite un menù interattivo è inoltre possibile eseguire le funzioni di verifica.

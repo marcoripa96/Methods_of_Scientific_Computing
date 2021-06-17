@@ -1,0 +1,31 @@
+0) CARATTERISTICHE MACCHINA
+1) DESCRIZIONE DOCUMENTAZIONI
+	Matlab: 
+		versione
+		documentazione precisa (comodo help / doc);
+		dire se è mantenuta;
+		community molto attiva;
+	Octave:
+		versione
+		perchè?
+			python andato male (numpy/scipy/...);
+			ha "quasi" stessi metodi, tra cui symamd -> buona alternativa a matlab;
+		documentazione precisa (comodo help / doc);
+		dire se è mantenuta;
+		problemi lettura file csv;
+		errore chol "not positive definite", ma è una bugia;
+		facilità installazione, occupa meno, usa meno memoria di base;
+	SYMAMD:
+		descrizione breve
+		perchè l'abbiamo introdotto (cosa migliore per rendere efficiente chol)
+			SYM perchè sappiamo che la matrice è positiva e simmetrica
+		linkare sito che compara gli ordinamenti pre-chol e confronta performance
+	
+2) GRAFICI SINGOLI
+	commenti agli 8 grafici
+	symamd vs not symamd 
+	matrici con 4 curve (ricordarsi di spiegare che livelliamo tutto per osservare i delta, ma i picchi dell'intero programma sono altri)
+3) COMPARAZIONE GRAFICI
+	conclusioni: decisioni operative
+4) CODICE
+	link al repo

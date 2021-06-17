@@ -1,0 +1,22 @@
+\subsection{Struttura del codice}
+Il codice sorgente di questa parte del progetto è disponibile all'indirizzo \url{https://gitlab.com/m.ripamonti/mcs_projects/-/tree/master/proj2/python/part2/src}. \\
+Per essere eseguito è necessaria l'installazione di python 3 e dei requirements definiti nel file \emph{requirements.txt} reperibile al seguente link: \url{https://gitlab.com/m.ripamonti/mcs_projects/-/blob/master/proj2/python/requirements.txt}.
+La struttura di organizzazione del codice è la seguente:
+\begin{itemize}
+    \item \textbf{assets}
+    \item \textbf{components}
+    \begin{itemize}
+        \item content.py
+        \item main\_window.py
+        \item toolbar.py
+    \end{itemize}
+    \item \textbf{shared}
+    \begin{itemize}
+        \item imageCompressor.py
+        \item worker.py
+    \end{itemize}
+    \item main.py
+\end{itemize}
+La cartella \emph{assets} ha lo scopo di raccogliere file (es: logo, font) che verranno utilizzati dalle componenti grafiche. \emph{components} contiene i file dell'implementazione dell'interfaccia grafica. \emph{shared}, invece, contiene la logica dell'algoritmo di compressione e una classe per costruire un oggetto thread utilizzata per migliorare l'interfaccia grafica. In particolare, quest'ultima cartella ha lo scopo di raccogliere tutti i file le cui funzioni possono essere riutilizzate all'interno del progetto anche in più componenti. Infine, allo stesso livello delle cartelle si trova il file \emph{main.py} che rende possibile l'avvio dell'applicazione.\\
+% requirements. non parte niente senza i requiements
+I dettagli di quanto implementato saranno discussi nelle apposite sezioni \ref{algoritmo} e \ref{interfaccia}.

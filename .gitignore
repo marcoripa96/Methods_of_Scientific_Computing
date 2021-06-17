@@ -1,0 +1,7 @@
+*.mat
+*.asv
+**/__pycache__
+**/cholenv
+**/venv*
+**/.ipynb*
+**/.vscode

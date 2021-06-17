@@ -1,0 +1,43 @@
+\section{Ambienti e librerie}\label{ambienti}
+Inizialmente sono stati considerati diversi ambienti e librerie; di seguito vengono riportate le loro caratteristiche.
+Nella sezione \ref{ambienti_valutazione} viene discussa la scelta della libreria adottata in questa analisi.
+
+\subsection{Matlab}
+Matlab, da Matrix Laboratory, è un ambiente utilizzato principalmente per il calcolo numerico e l'analisi statistica.
+Le prime versioni di Matlab risalgono agli anni 80 quando Cleve Moler, professore di Algebra Lineare e Analisi Numerica presso L'Università del New Mexico, sente l'esigenza di fornire ai suoi studenti un facile accesso agli strumenti matematici forniti dalle attuali librerie e linguaggi di programmazione \cite{matlab_history:1}.
+Matlab è infatti basato su un linguaggio matrix-based che accetta gran parte delle naturali espressioni matematiche \cite{matlab_what_is:1}.
+L'attuale versione fornisce un ambiente desktop ottimizzato per l'analisi interattiva consentendo per esempio di visualizzare funzioni e matrici.\\
+In più non si limita ad un'implementazione desktop ma rende possibile scalare le analisi su cluster, GPU e cloud.\\
+Matlab è distribuito sotto licenza proprietaria, a pagamento, da "The MathWorks, Inc." \cite{matlab_it:1}.
+
+\subsection{GNU Octave}
+GNU Octave è un linguaggio di programmazione di alto livello rivolto principalmente all'analisi numerica. La sua sintassi è largamente compatibile con quella di Matlab rendendo possibile la scrittura di codice supportato da entrambi.
+Lo sviluppo di GNU Octave inizia intorno al 1988 per esigenze simili a quelle che hanno portato alla nascita di Matlab: James B. Rawlings dall'Università del Wisconsin-Madison e John G. Ekerdt dall'Università del Texas ritenevano che gli studenti perdessero troppo tempo nel sistemare programmi Fortran piuttosto che dedicarlo all'ingegneria chimica \cite{octave_about:1}.\\
+Anche Octave fornisce un ambiente desktop interattivo in grado di visualizzare semplicemente funzioni o matrici.\\
+GNU Octave è distribuito gratuitamente e sotto licenza libera, più precisamente sotto la GNU General Public License (GPL) \cite{gnu_gpl:1}.
+
+\subsection{FreeMat}
+FreeMat è un software libero e installabile gratuitamente, distribuito sotto la licenza GNU General Public License (GPL) \cite{gnu_gpl:1}, per analisi computazionale e numerica.\\
+Anch'esso largamente compatibile con Matlab, nasce con l'obiettivo di offrire funzionalità avanzate come il semplice utilizzo di librerie scritte in altri linguaggi di programmazione, lo sviluppo di algoritmi paralleli e distribuiti e la visualizzazione 3D.\\
+Tuttavia il progetto appare non attivamente mantenuto: secondo il sito ufficiale l'ultima release di FreeMat risale al 2013 \cite{freemat:1}.
+
+\subsection{Scilab}
+Scilab è un software libero e distribuito gratuitamente sotto la licenza GNU General Public License (GPL) \cite{gnu_gpl:1}.
+Nato negli anni 90 per conto di Inria (Institut national de recherche en sciences et technologies du numérique) e Scilab Group, fornisce strumenti per operazioni matematiche e di data analysis, così come per visualizzazioni di grafici 2D e 3D ed include funzionalità di simulazione nei campi di signal processing, meccanica e termodinamica \cite{scilab:1}.
+Ha una sintassi simile a quella di Matlab, ma alcuni studi lo riportano come meno performante di matlab e octave \cite{matlab_octave_scilab_comp:1}.
+
+\subsection{Python - SciPy/NumPy}
+Python è un linguaggio di programmazione ad alto livello, interpretato e orientato agli oggetti \cite{what_is_python:1} nato negli anni 90 \cite{python_history:1} e
+caratterizzato da una sintassi considerata semplice e di facile apprendimento, da una vasta community e da una grande varietà
+di pacchetti che ne permettono l'utilizzo in svariati campi.\\
+È gratuito e distribuito sotto licenze open-source GPL-compatibili \cite{python_history:1}.
+\\
+SciPy è un "ecosistema basato su python rivolto alla matematica, alle scienze e all'ingegneria" \cite{scipy:1}. Tra i suoi "core packages" troviamo NumPy: il pacchetto rivolto al calcolo scientifico che fornisce ad esempio supporto per array N-dimensionali e funzioni relative all'algebra lineare, trasformazioni di Fourier e generazione di numeri casuali \cite{numpy:1}. L'utilizzo di entrambi è gratuito e sono distribuiti sotto licenza opensource (BSD 3-Clause) \cite{scipy_license:1} \cite{numpy_license:1}. 
+
+\subsection{Valutazione ambienti e librerie open source}\label{ambienti_valutazione}
+Con lo scopo di confrontare un ambiente/libreria a pagamento con licenza proprietaria come Matlab con
+un software gratuito ed open source, sono stati valutati tutti gli ambienti e le librerie sopracitate.\\
+FreeMat è stato scartato perché non attivamente mantenuto.
+L'ecosistema Python+SciPy/NumPy, pur vantando di una vasta community, non fornisce alcune funzioni presenti in Matlab (e Octave)
+utilizzate durante il progetto; ad esempio la permutazione di matrice utilizzata per ottimizzare la decomposizione di Cholesky, come mostrato nella sezione \ref{letturaPermutazione}.
+Scilab si è dimostrato un progetto valido, tuttavia la preferenza è ricaduta su GNU Octave una volta a conoscenza di studi che ne ritengono le prestazioni inferiori e meno consistenti rispetto a Matlab e Octave \cite{matlab_octave_scilab_comp:1}. 

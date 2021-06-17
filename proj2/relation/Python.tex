@@ -1,0 +1,25 @@
+\section{Python}\label{python}
+Il linguaggio di programmazione che è stato scelto per sviluppare entrambe le parti del progetto è Python.\\
+Python è un popolare linguaggio di programmazione ad alto livello, interpretato e orientato agli oggetti \cite{what_is_python:1} nato negli anni 90 \cite{python_history:1}, completamente gratuito e distribuito con licenze open source GPL-compatibili \cite{python_history:1}.
+Una delle sue peculiarità è quella di essere semplice e di facile apprendimento, ma allo stesso tempo è in grado di essere impiegato
+in svariati campi, grazie all'enorme quantità di moduli e librerie che è possibile integrare all'interno dei propri script.
+Oltre alle librerie di computazione numerica sono disponibili anche librerie per lo sviluppo di GUI, motivo per cui è stato scelto anche per la seconda parte del progetto.
+
+
+\subsection{Librerie utilizzate}
+Di seguito vengono elencate le librerie utilizzate per le due parti del progetto.
+\paragraph{Prima parte - Implementazione DCT2}
+\begin{itemize}
+    \item NumPy: libreria per la computazione numerica ed analisi scientifica. Tra le sue principali caratteristiche possiamo notare la gestione di array N-dimensionali, funzioni per operazioni di algebra lineare e per la generazione di numeri pseudo-casuali \cite{numpy:1}.
+    \item SciPy library: libreria che fornisce diverse efficienti routines per operazioni di numerica, interpolazione, ottimizzazione, algebra lineare e statistica \cite{scipylib:1}. Da questa libreria sono state utilizzate le funzioni per computare la DCT2 con cui poi avverrà il confronto con la funzione da noi implementata.
+    \item Pandas\footnote{https://pandas.pydata.org/}: libreria per manipolazione e analisi dei dati. In particolare, offre i cosiddetti dataframe, ovvero strutture dati tabulari (righe e colonne), mutabili in dimensione ed eterogenee.
+\end{itemize}
+Tutte e tre le librerie sono parte di SciPy: un "ecosistema basato su python rivolto alla matematica, alle scienze e all'ingegneria" \cite{scipy:1}. L'utilizzo è gratuito e sono distribuite sotto licenza opensource (BSD 3-Clause) \cite{scipy_license:1,numpy_license:1}. 
+\paragraph{Seconda parte - Implementazione algoritmo di compressione}
+\begin{itemize}
+    \item NumPy: libreria utilizzata principalmente per la gestione delle matrici.
+    \item SciPy library: libreria utilizzata per effettuare le computazioni di DCT2 ed IDCT2 sulle matrici rappresentanti le immagini su cui avverrà la compressione.
+    \item PySide2: libreria utilizzata per lo sviluppo dell'interfaccia utente \cite{Qt_for_Python:1}. Tale libreria, descritta dettagliatamente nella sezione \ref{pyside2}, permette l'integrazione della famosa libreria Qt\footnote{\url{https://www.qt.io/}} di C++.
+    \item OpenCv\footnote{\url{https://opencv.org/}}: libreria utilizzata per leggere le immagini da disco.
+    \item Humanize\footnote{\url{https://github.com/jmoiron/humanize}}: libreria di importanza secondaria utilizzata per mostrare lo spazio occupato dall'immagine.
+\end{itemize}

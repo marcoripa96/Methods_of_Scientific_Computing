@@ -1,0 +1,93 @@
+\section{Sviluppo}\label{sviluppo}
+In questa sezione verrà mostrato il procedimento adottato per la fase sperimentale di questo lavoro. \\
+Verranno prima descritte brevemente le principali funzioni implementate, poi illustrate le varie fasi dello sviluppo che hanno portato alla realizzazione del progetto. \\
+In particolare il lavoro è stato svolto e completato a partire da Matlab, dopodiché si è passati allo studio di Octave con cui si è verificata la riproducibilità di quanto fatto precedentemente.
+Dato che per entrambi gli ambienti si è cercato di mantenere la medesima struttura del codice, le funzioni e le fasi presentate in seguito possono essere generalizzate rispetto ai due softwares.
+
+\subsection{Funzioni implementate}
+Il codice sorgente di questo progetto è disponibile all'indirizzo \url{https://gitlab.com/m.ripamonti/mcs_projects/-/tree/master/proj1/src} .\\
+Le funzioni principali su cui si basa il lavoro sono le seguenti:
+\begin{itemize}
+    \item~[A, x, b] = readMatrix(filename, usesymamd): prende in input il nome \emph{filename} 
+    del file della matrice e un flag \emph{usesymamd} che specifica se effettuare una permutazione 
+    sulla matrice; viene restituita in \emph{A} la matrice e, per comodità, in \emph{x} il vettore di 1 delle 
+    incognite e in \emph{b} il vettore del termine noto (calcolato a parte dalle \emph{x}).
+    \item~[err] = relError(xEs, xApp): prende in input la soluzione esatta \emph{xEs} e la soluzione approssimata \emph{xApp} e restituisce 
+    in \emph{err} l'errore relativo calcolato.
+    \item~[xApp] = solveWithCholesky(A, b): prende in input una matrice \emph{A} e un vettore dei termini noti \emph{b}, effettua la decomposizione 
+    di Cholesky e risolve il sistema; restituisce in \emph{xApp} la soluzione approssimata.
+    \item~[err, time] =  matrixAnalyzer(filename, usesymamd): prende in input il nome \emph{filename} del file della matrice e il flag 
+    \emph{usesymamd} che specifica se effettuare una permutazione sulla matrice e, appoggiandosi ai metodi precedentemente illustrati, 
+    legge la matrice, risolve il sistema e calcola l'errore relativo; vengono restituiti in \emph{err} l'errore relativo e in \emph{time} il tempo impiegato nella risoluzione del sistema.
+    \item singlePlotter(table, filterField, filterValue, compareField, compareValue): prende in input 
+    una tabella \emph{table} nel formato csv\footnote{\url{https://gitlab.com/m.ripamonti/mcs_projects/-/blob/master/proj1/reports.csv}}
+    che viene filtrata in base ai campi \emph{filterField} e \emph{compareField} 
+    con i rispettivi valori \emph{filterValue} e \emph{compareValue} e disegna un grafico sulla base dei campi scelti; nel grafico 
+    l'asse delle X rappresenta le dimensioni della matrice e l'asse Y, in scala logaritmica, rappresenta tempo, errore e memoria.
+    \item comparePlotter(table, filterField, filterValue, compareField, compareValue1, compareValue2): 
+    prende in input una tabella \emph{table} nel formato csv che viene filtrata in base ai campi \emph{filterField} e \emph{compareField} con i rispettivi valori \emph{filterValue}, \emph{compareValue1}, 
+    \emph{compareValue2} e disegna un grafico sulla base dei campi scelti per il confronto; 
+    nel grafico l'asse delle X rappresenta le dimensioni della matrice e l'asse Y, in scala logaritmica, rappresenta tempo, errore e memoria.
+    \item~memoryPlotter(matrixName): prende in input il nome \emph{matrixName} di una matrice e traccia un grafico della variazione di 
+    memoria utilizzata durante la risoluzione del sistema in funzione del tempo.
+    \item~[memory] = memoryReadDelta(filename): prende in input il nome di un file \emph{filename} da cui legge i dati sull'utilizzo di memoria 
+    durante la risoluzione del sistema e ne calcola l'escursione togliendo la memoria base usata dal processo; i nuovi valori della memoria vengono 
+    restituiti in \emph{memory}
+    
+\end{itemize}
+
+Le funzioni implementate sono state documentate ed è possibile consultarle tramite il comando \emph{help} sia in Matlab che in Octave.
+
+\subsection{Fase 1: Lettura matrici e permutazione}\label{letturaPermutazione}
+Per prima cosa è stata implementata la lettura delle matrici attraverso il metodo \emph{readMatrix}. La lettura avviene mantenendo la 
+natura sparsa delle matrici, le quali vengono caricate nel workspace da file \emph{.mat}. Dato lo scopo del progetto, per comodità sono 
+stati direttamente integrati nel metodo di lettura anche la generazione dei vettori delle incognite e del termine noto che saranno poi 
+utilizzati per la risoluzione del sistema e per il calcolo dell'errore relativo. \\
+Come è stato anticipato durante la descrizione delle funzioni, è stato necessario introdurre la possibilità di richiedere una permutazione sulle 
+matrici dopo la loro lettura. Questo è dovuto al fatto che il metodo di Cholesky nell'effettuare la decomposizione di alcune matrici sparse 
+potrebbe incorrere nel problema del fill-in. Per ovviare a questo problema, esistono diverse strategie di ordinamento che permettono di ridurre 
+il numero di elementi diversi da zero derivanti dalla decomposizione. Tra le possibilità di permutazione è stata scelta quella basata sull'algoritmo di 
+\emph{approximate minimum degree (amd)}\footnote{\url{https://it.mathworks.com/help/matlab/ref/amd.html}}\footnote{\url{https://octave.sourceforge.io/octave/function/amd.html}}. 
+In particolare, dato che tutte le matrici da analizzare sono simmetriche e definite positive, è stata utilizzata l'apposita versione \emph{symamd}\footnote{\url{https://it.mathworks.com/help/matlab/ref/symamd.html}}\footnote{\url{https://octave.sourceforge.io/octave/function/symamd.html}}. 
+Come si vedrà nella sezione \ref{symamdVSnotsymamd}, ciò porterà a notevoli benefici nel calcolo della decomposizione di Cholesky.
+
+\subsection{Fase 2: Procedura di risoluzione di un sistema}
+Per effettuare la risoluzione di un sistema sfruttando la decomposizione di Cholesky è stato implementato il metodo \emph{solveWithCholesky}. 
+Per prima cosa viene effettuata la decomposizione tramite il metodo \emph{chol}\footnote{\url{https://it.mathworks.com/help/matlab/ref/chol.html}}\footnote{\url{https://octave.sourceforge.io/octave/function/chol.html}}.
+Per entrambi gli ambienti questo metodo è in grado di controllare che la matrice passata sia definita positiva e restituisce di default 
+una matrice triangolare superiore. L'unica differenza sta nel fatto che Matlab è in grado di gestire il caso in cui la matrice non sia 
+simmetrica, dando la possibilità di restituire un errore. Octave, invece, procede ugualmente considerando la parte triangolare inferiore come trasposta della superiore
+o viceversa.
+Dopo aver effettuato la decomposizione e aver ottenuto la matrice \emph{R} tale che  soddisfi $A = R^{T}R$, dove A è la matrice originale, si può procedere alla risoluzione del sistema iniziale eseguendo in sequenza i seguenti due passi:
+\begin{enumerate}
+    \item Risoluzione del sistema $R^{T}y = b$ mediante il metodo di sostituzione in avanti.
+    \item Risoluzione del sistema $Rx = y$ mediante il metodo di sostituzione all'indietro e ricavare la soluzione $x$ approssimata.
+\end{enumerate}
+Entrambi i sistemi vengono risolti mediante l'operatore '\emph{\textbackslash{}}'\footnote{\url{https://it.mathworks.com/help/matlab/ref/mldivide.html\#bt42oms_head}} che riconoscendo rispettivamente le caratteristiche delle due matrici, la prima triangolare inferiore e la seconda triangolare superiore, applica rispettivamente il metodo di sostituzione in avanti e il metodo di sostituzione all'indietro \cite{quarteroni2006scientific}. \\
+
+\subsection{Fase 3: Raccolta dati relativi alle performance}\label{fase3}
+Per agevolare la raccolta dei dati sulle performance per ogni matrice, il metodo implementato è quello di \emph{matrixAnalyzer}. 
+Questo metodo era stato inizialmente predisposto in Matlab per calcolare errore relativo, tempo impiegato per la risoluzione e picco di memoria. 
+In Octave, però, non esiste alcuna funzione che permetta di monitorare l'utilizzo della RAM. È stato quindi necessario intraprendere un'altra 
+strada per mantenere coerenza rispetto al metodo di rilevazione di tale misura di performance. La soluzione adottata è stata quella di utilizzare 
+degli scripts\footnote{\url{https://gitlab.com/m.ripamonti/mcs_projects/-/tree/master/proj1/scripts}} in modo da tracciare i valori della memoria occupata dai 
+processi di Matlab/Octave ad intervalli di tempo regolari durante la risoluzione del sistema. \\
+I passaggi con cui sono stati raccolti i dati sono i seguenti per ogni matrice, ambiente e sistema operativo:
+\begin{enumerate}
+    \item avvio dello script di monitoraggio memoria
+    \item esecuzione metodo \emph{matrixAnalyzer}
+    \item inserimento risultati ottenuti in un csv\footnote{\url{https://gitlab.com/m.ripamonti/mcs_projects/-/blob/master/proj1/reports.csv}}
+\end{enumerate} 
+
+
+\subsection{Fase 4: Visualizzazione risultati}
+Per quanto riguarda la parte di analisi, sono stati implementati i metodi \emph{singlePlotter} e \emph{comparePlotter} per produrre i grafici richiesti
+per la relazione. Questi metodi hanno permesso di automatizzare la lettura da csv per disegnare in modo efficace i grafici sulle performance date le varie 
+combinazioni software/OS. \\ % TODO
+Inoltre, è stato reputato interessante visualizzare dei grafici aggiuntivi contenenti lo storico delle variazioni di memoria nel tempo per ogni matrice 
+a seconda delle diverse configurazioni. A questo scopo è stata implementata la funzione \emph{memoryPlotter}. \\
+I grafici prodotti in questa fase saranno discussi in dettaglio alla sezione \ref{graficiMemoria}. 
+
+
+
+

@@ -1,0 +1,31 @@
+\subsection{Algoritmo di compressione}\label{algoritmo}
+Di seguito viene descritto l'algoritmo di compressione implementato mediante la funzione \emph{compressImage} contenuta in \emph{imageCompressor.py}\footnote{\url{https://gitlab.com/m.ripamonti/mcs_projects/-/blob/master/proj2/python/part2/src/shared/imageCompressor.py}}.
+
+\subsubsection{Definizione di \emph{compressImage}}
+\begin{verbatim}
+    compressImage(mat, F, d, [progress_callback])
+\end{verbatim}
+\textbf{Input}:
+\begin{itemize}
+	\item mat: matrice corrispondente all'immagine selezionata in input. L'immagine, essendo stata letta in scala di grigi, avrà la corrispondenza di ogni pixel con un elemento della matrice a cui è associato un intero compreso tra 0 e 255.
+	\item F: parametro che individua la dimensione di un singolo blocco su cui avverranno le operazioni di compressione. Ad esempio con F pari a 8, la matrice rappresentante l'immagine in input verrà divisa in blocchi 8x8.\\ \textbf{N.B}: F deve essere un intero positivo il cui valore massimo corrisponde al minimo tra il numero di righe e il numero di colonne della matrice.
+	\item d: il \emph{Frequency Threshold}; i coefficienti ckl di ogni blocco tali che \emph{k + l $\geq$ d} vengono azzerati.\\ \textbf{N.B}: d deve essere un intero compreso tra 0 e (2F - 2).
+	\item progress\_callback: parametro opzionale che consente di passare alla funzione il riferimento al \emph{signal progress} del worker (thread) che la sta eseguendo e permettere quindi un \emph{emit} dell'avanzamento. Questo parametro è stato utilizzato per per mostrare una progressbar.
+\end{itemize}
+\textbf{Output}:
+\begin{itemize}
+	\item compressedImage: in output viene fornita la matrice dell'immagine compressa.
+\end{itemize}
+
+\subsubsection{Fasi dell'algoritmo di compressione}
+L'algoritmo si compone principalmente di due fasi:
+\begin{enumerate}
+	\item Divisione della matrice in blocchi: la matrice rappresentante l'immagine viene divisa in blocchi quadrati la cui grandezza varia a seconda del parametro \emph{F} scelto dall'utente. È importante notare che nel caso le dimensioni della matrice non siano multipli di \emph{F}, i pixel in eccesso vengono semplicemente eliminati. Ne risulta quindi una riduzione delle dimensioni dell'immagine.
+	\item Operazioni su un singolo blocco: per ogni blocco vengono eseguite le seguenti operazioni:
+	\begin{enumerate}
+        \item Viene computata la \emph{dct2} (bidimensionale) producendo un nuovo blocco \emph{newBlock} di coefficienti \emph{ckl}.
+        \item Tutti i \emph{ckl} con \emph{k + l $\geq$ d}, con \emph{d} scelto dall'utente vengono azzerati.
+        \item I dati restanti del blocco vengono ora riportati alla forma originale tramite la funzione inversa (idct2 bidimensionale). % corretto?
+        \item Dopodiché i coefficienti sono arrotondati all'intero più vicino e i valori esterni all'intervallo [0,255] sono a loro volta sostituiti con l'estremo più vicino.
+    \end{enumerate}
+\end{enumerate}
